@@ -7,10 +7,11 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "member")
-public class Member {
+@Entity
+@Table(name="member")
+public class Member{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String matricule;
     private String nom;
@@ -18,9 +19,11 @@ public class Member {
     private String dateNaissance;
     private String lieuNaissance;
     @ManyToOne
-    private Club club;
-    private Grade grade;
+    private Organisation organisation;
+    private GRADE grade;
+    private Fonction fonction;
     private String qrcode;
-    private Etat etat;
     private String photo;
+    private STATUS printStatus;
+    private STATUS licenceStatus;
 }

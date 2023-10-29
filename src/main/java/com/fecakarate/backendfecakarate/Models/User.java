@@ -1,23 +1,27 @@
 package com.fecakarate.backendfecakarate.Models;
 
-import com.fecakarate.backendfecakarate.Enums.ConnexionStatus;
+import com.fecakarate.backendfecakarate.Enums.STATUS;
 import com.fecakarate.backendfecakarate.Enums.UserType;
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
 import lombok.*;
 
 @Getter
 @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "user")
+@Entity
+@Table(name="user_cnx")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String matricule;
     private String email;
     private String password;
     private UserType userType;
-    private ConnexionStatus connexionStatus;
+    private STATUS connexionStatus;
+    @ManyToOne
+    @JoinColumn(name = "role_groupe_id")
+    private RoleGroup roleGroup;
 }
