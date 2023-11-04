@@ -31,7 +31,4 @@ public class Organisation {
     private String logo;
     private STATUS etat;
     private UserType userType;
-    @OneToOne
-    @JoinColumn(name = "root_user_id")
-    private User user;
 }

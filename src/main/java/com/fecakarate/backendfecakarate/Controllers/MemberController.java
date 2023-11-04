@@ -2,7 +2,7 @@ package com.fecakarate.backendfecakarate.Controllers;
 
 import com.fecakarate.backendfecakarate.Dtos.MemberDto;
 import com.fecakarate.backendfecakarate.Enums.Fonction;
-import com.fecakarate.backendfecakarate.Enums.GRADE;
+import com.fecakarate.backendfecakarate.Enums.Grade;
 import com.fecakarate.backendfecakarate.Enums.STATUS;
 import com.fecakarate.backendfecakarate.Services.interfaces.IMemberServices;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +41,7 @@ public class MemberController {
                                     @RequestParam(name = "matricule", required = false) String matricule,
                                     @RequestParam(name = "fonction" , required = false) Fonction fonction,
                                     @RequestParam(name = "printStatus" , required = false) STATUS printStatus,
-                                    @RequestParam(name = "grade" , required = false) GRADE grade,
+                                    @RequestParam(name = "grade" , required = false) Grade grade,
                                     @RequestParam(name = "organisationId" , required = false) Long organisationId,
                                     @RequestParam(name = "licenceStatus" , required = false) STATUS licenceStatus,
                                     @RequestParam(name = "from" , required = false) String from,

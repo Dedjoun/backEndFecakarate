@@ -2,7 +2,7 @@ package com.fecakarate.backendfecakarate.Services.interfaces;
 
 import com.fecakarate.backendfecakarate.Dtos.MemberDto;
 import com.fecakarate.backendfecakarate.Enums.Fonction;
-import com.fecakarate.backendfecakarate.Enums.GRADE;
+import com.fecakarate.backendfecakarate.Enums.Grade;
 import com.fecakarate.backendfecakarate.Enums.STATUS;
 import com.fecakarate.backendfecakarate.Exceptions.MemberException;
 import com.fecakarate.backendfecakarate.Models.Member;
@@ -21,7 +21,7 @@ public interface IMemberServices {
 
     Page<Member> getALL(Pageable pageable, String matricule,
                         Fonction fonction, STATUS printStatus,
-                        GRADE grade,Long organisationId,
+                        Grade grade, Long organisationId,
                         STATUS licenceStatus,
                         String from, String to) throws MemberException;
 }

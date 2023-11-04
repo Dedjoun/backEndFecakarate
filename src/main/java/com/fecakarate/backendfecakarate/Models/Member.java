@@ -20,7 +20,7 @@ public class Member{
     private String lieuNaissance;
     @ManyToOne
     private Organisation organisation;
-    private GRADE grade;
+    private Grade grade;
     private Fonction fonction;
     private String qrcode;
     private String photo;

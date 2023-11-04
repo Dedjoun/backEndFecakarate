@@ -3,7 +3,7 @@ package com.fecakarate.backendfecakarate.Enums;
 
 
 
-public enum GRADE {
+public enum Grade {
     K_6_KYU("6EME KYU"),
     K_5_KYU("5EME KYU"),
     K_4_KYU("4EME KYU"),
@@ -23,7 +23,7 @@ public enum GRADE {
 
   private String description;
 
-  GRADE(String description){
+  Grade(String description){
       this.description = description;
   }
 

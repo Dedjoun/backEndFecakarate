@@ -6,7 +6,7 @@ import com.fecakarate.backendfecakarate.Models.Organisation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface IClubServices {
+public interface IOrganisationService {
     Organisation add(OrganisationDto organisationDto) throws ClubException;
 
     Organisation update(OrganisationDto organisationDto) throws ClubException;

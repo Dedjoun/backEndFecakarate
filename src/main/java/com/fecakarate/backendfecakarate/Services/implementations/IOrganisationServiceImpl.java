@@ -4,7 +4,7 @@ import com.fecakarate.backendfecakarate.Dtos.OrganisationDto;
 import com.fecakarate.backendfecakarate.Exceptions.ClubException;
 import com.fecakarate.backendfecakarate.Models.Organisation;
 import com.fecakarate.backendfecakarate.Repository.OrganisationRepo;
-import com.fecakarate.backendfecakarate.Services.interfaces.IClubServices;
+import com.fecakarate.backendfecakarate.Services.interfaces.IOrganisationService;
 import com.fecakarate.backendfecakarate.Utils.RandomUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class IClubServicesImpl implements IClubServices {
+public class IOrganisationServiceImpl implements IOrganisationService {
 
     private final OrganisationRepo organisationRepo;
 

@@ -1,10 +1,8 @@
 package com.fecakarate.backendfecakarate.Dtos;
 
 import com.fecakarate.backendfecakarate.Enums.Fonction;
-import com.fecakarate.backendfecakarate.Enums.GRADE;
+import com.fecakarate.backendfecakarate.Enums.Grade;
 import com.fecakarate.backendfecakarate.Enums.STATUS;
-import com.fecakarate.backendfecakarate.Models.Organisation;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @NoArgsConstructor
@@ -19,7 +17,7 @@ public class MemberDto {
     private String dateNaissance;
     private String lieuNaissance;
     private Long organisationId;
-    private GRADE grade;
+    private Grade grade;
     private Fonction fonction;
     private String qrcode;
     private String photo;
