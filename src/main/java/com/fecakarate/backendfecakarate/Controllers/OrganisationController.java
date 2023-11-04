@@ -1,7 +1,7 @@
 package com.fecakarate.backendfecakarate.Controllers;
 
 import com.fecakarate.backendfecakarate.Dtos.OrganisationDto;
-import com.fecakarate.backendfecakarate.Services.interfaces.ClubServices;
+import com.fecakarate.backendfecakarate.Services.interfaces.IClubServices;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/organisation/management")
 public class OrganisationController {
 
-    private final ClubServices clubServices;
+    private final IClubServices IClubServices;
 
-    public OrganisationController(ClubServices clubServices) {
-        this.clubServices = clubServices;
+    public OrganisationController(IClubServices IClubServices) {
+        this.IClubServices = IClubServices;
     }
 
     @PostMapping(path = "V1/add")
     public ResponseEntity<?> add(@RequestBody OrganisationDto organisationDto){
-        return ResponseEntity.ok(clubServices.add(organisationDto));
+        return ResponseEntity.ok(IClubServices.add(organisationDto));
     }
 
     @PutMapping(path = "V1/update")
     public ResponseEntity<?> update(@RequestBody OrganisationDto organisationDto){
-        return ResponseEntity.ok(clubServices.update(organisationDto));
+        return ResponseEntity.ok(IClubServices.update(organisationDto));
     }
 
     @GetMapping(path = "V1/getById")
     public ResponseEntity<?> getById(@RequestParam(name = "id") Long id){
-        return ResponseEntity.ok(clubServices.getById(id));
+        return ResponseEntity.ok(IClubServices.getById(id));
     }
 
 
@@ -42,12 +42,12 @@ public class OrganisationController {
                                     @RequestParam(name="quartier", required = false) String quartier,
                                     @RequestParam(name="etat", required = false) String etat,
                                     @RequestParam(name="printStatus", required = false) String printStatus){
-        return ResponseEntity.ok(clubServices.getALL(pageable,nom,ville,region,departement,quartier,etat,printStatus));
+        return ResponseEntity.ok(IClubServices.getALL(pageable,nom,ville,region,departement,quartier,etat,printStatus));
     }
 
     @DeleteMapping("V1/delete")
     public ResponseEntity<?> delete(@RequestParam(name="id") Long id){
-        return ResponseEntity.ok(clubServices.delete(id));
+        return ResponseEntity.ok(IClubServices.delete(id));
     }
 
 }

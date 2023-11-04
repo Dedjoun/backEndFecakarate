@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClubRepo extends JpaRepository<Organisation,Long>, JpaSpecificationExecutor<Organisation> {
+public interface OrganisationRepo extends JpaRepository<Organisation,Long>, JpaSpecificationExecutor<Organisation> {
 }

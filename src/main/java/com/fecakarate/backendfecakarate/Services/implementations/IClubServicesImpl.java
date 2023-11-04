@@ -1,11 +1,10 @@
 package com.fecakarate.backendfecakarate.Services.implementations;
 
-import com.fecakarate.backendfecakarate.Dtos.ClubDto;
 import com.fecakarate.backendfecakarate.Dtos.OrganisationDto;
 import com.fecakarate.backendfecakarate.Exceptions.ClubException;
 import com.fecakarate.backendfecakarate.Models.Organisation;
-import com.fecakarate.backendfecakarate.Repository.ClubRepo;
-import com.fecakarate.backendfecakarate.Services.interfaces.ClubServices;
+import com.fecakarate.backendfecakarate.Repository.OrganisationRepo;
+import com.fecakarate.backendfecakarate.Services.interfaces.IClubServices;
 import com.fecakarate.backendfecakarate.Utils.RandomUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +16,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ClubServicesImpl implements ClubServices {
+public class IClubServicesImpl implements IClubServices {
 
-    private final ClubRepo clubRepo;
+    private final OrganisationRepo organisationRepo;
 
 
     @Override
@@ -28,7 +27,7 @@ public class ClubServicesImpl implements ClubServices {
         Organisation organisation = new Organisation();
         BeanUtils.copyProperties(organisationDto, organisation);
         organisation.setMatricule(matricule);
-        return clubRepo.save(organisation);
+        return organisationRepo.save(organisation);
     }
 
     @Override
@@ -38,7 +37,7 @@ public class ClubServicesImpl implements ClubServices {
 
     @Override
     public Organisation getById(Long id) throws ClubException {
-        return clubRepo.findById(id)
+        return organisationRepo.findById(id)
                 .orElseThrow(() -> new ClubException("400","Club with id ["+id+"] not found!" ));
     }
 
@@ -49,9 +48,9 @@ public class ClubServicesImpl implements ClubServices {
 
     @Override
     public String delete(Long id) throws ClubException {
-        clubRepo.findById(id)
+        organisationRepo.findById(id)
                 .orElseThrow(() -> new ClubException("400","Club with id ["+id+"] not found!" ));
-        clubRepo.deleteById(id);
+        organisationRepo.deleteById(id);
         return "SUCCESS";
     }
 }

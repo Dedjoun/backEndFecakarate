@@ -1,13 +1,12 @@
 package com.fecakarate.backendfecakarate.Services.interfaces;
 
-import com.fecakarate.backendfecakarate.Dtos.ClubDto;
 import com.fecakarate.backendfecakarate.Dtos.OrganisationDto;
 import com.fecakarate.backendfecakarate.Exceptions.ClubException;
 import com.fecakarate.backendfecakarate.Models.Organisation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface ClubServices {
+public interface IClubServices {
     Organisation add(OrganisationDto organisationDto) throws ClubException;
 
     Organisation update(OrganisationDto organisationDto) throws ClubException;

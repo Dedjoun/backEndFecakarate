@@ -5,6 +5,9 @@ import com.fecakarate.backendfecakarate.Enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @Getter
 @Setter
 @Data
@@ -16,6 +19,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
+    private String userName;
     private String matricule;
     private String email;
     private String password;

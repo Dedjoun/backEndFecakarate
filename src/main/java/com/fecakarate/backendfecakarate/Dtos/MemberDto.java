@@ -18,7 +18,7 @@ public class MemberDto {
     private String prenom;
     private String dateNaissance;
     private String lieuNaissance;
-    private String organisationId;
+    private Long organisationId;
     private GRADE grade;
     private Fonction fonction;
     private String qrcode;

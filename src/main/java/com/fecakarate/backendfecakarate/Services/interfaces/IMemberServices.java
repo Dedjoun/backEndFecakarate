@@ -9,7 +9,7 @@ import com.fecakarate.backendfecakarate.Models.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface MemberServices {
+public interface IMemberServices {
 
     Member add(MemberDto memberDto) throws MemberException;
 
@@ -21,6 +21,7 @@ public interface MemberServices {
 
     Page<Member> getALL(Pageable pageable, String matricule,
                         Fonction fonction, STATUS printStatus,
-                        GRADE grade,String organisationId,
-                        STATUS licenceStatus) throws MemberException;
+                        GRADE grade,Long organisationId,
+                        STATUS licenceStatus,
+                        String from, String to) throws MemberException;
 }
