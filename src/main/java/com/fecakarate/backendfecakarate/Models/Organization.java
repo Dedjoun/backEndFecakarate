@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name="organisation")
-public class Organisation {
+public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;

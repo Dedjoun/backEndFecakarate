@@ -27,7 +27,6 @@ public class Initializer {
 
     @Bean
     CommandLineRunner runner(IUserservice userservice){
-        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Start Runner @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         return args -> {
             /*
                 save role
@@ -38,7 +37,7 @@ public class Initializer {
             }
 
             if (roleRepo.findByName("Role_ORG").isEmpty()){
-                userservice.saveRole(new Role("Role_ORG", "This is Organisation"));
+                userservice.saveRole(new Role("Role_ORG", "This is Organization"));
             }
 
             if (roleRepo.findByName("Role_MANAGER").isEmpty()){

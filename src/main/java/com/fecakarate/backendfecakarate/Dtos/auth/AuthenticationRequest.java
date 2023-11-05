@@ -1,4 +1,4 @@
-package com.fecakarate.backendfecakarate.Models.auth;
+package com.fecakarate.backendfecakarate.Dtos.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String access_token;
-    private String refresh_token;
-    private String user_name;
+public class AuthenticationRequest {
     private String email;
+    private String password;
 }

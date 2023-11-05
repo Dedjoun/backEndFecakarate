@@ -1,4 +1,4 @@
-package com.fecakarate.backendfecakarate.Dtos;
+package com.fecakarate.backendfecakarate.Dtos.organization;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 @Getter
 @Setter
-public class OrganisationDto {
+public class OrganizationDto {
     private String nom;
     private String responsable;
     private String region;

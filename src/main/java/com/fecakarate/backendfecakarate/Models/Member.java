@@ -19,7 +19,7 @@ public class Member{
     private String dateNaissance;
     private String lieuNaissance;
     @ManyToOne
-    private Organisation organisation;
+    private Organization organization;
     private Grade grade;
     private Fonction fonction;
     private String qrcode;

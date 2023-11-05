@@ -1,4 +1,4 @@
-package com.fecakarate.backendfecakarate.Dtos;
+package com.fecakarate.backendfecakarate.Dtos.organization;
 
 import com.fecakarate.backendfecakarate.Enums.STATUS;
 import lombok.*;

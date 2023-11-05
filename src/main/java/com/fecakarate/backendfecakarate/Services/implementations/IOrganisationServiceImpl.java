@@ -1,9 +1,9 @@
 package com.fecakarate.backendfecakarate.Services.implementations;
 
-import com.fecakarate.backendfecakarate.Dtos.OrganisationDto;
+import com.fecakarate.backendfecakarate.Dtos.organization.OrganizationDto;
 import com.fecakarate.backendfecakarate.Exceptions.ClubException;
-import com.fecakarate.backendfecakarate.Models.Organisation;
-import com.fecakarate.backendfecakarate.Repository.OrganisationRepo;
+import com.fecakarate.backendfecakarate.Models.Organization;
+import com.fecakarate.backendfecakarate.Repository.OrganizationRepo;
 import com.fecakarate.backendfecakarate.Services.interfaces.IOrganisationService;
 import com.fecakarate.backendfecakarate.Utils.RandomUtil;
 import jakarta.transaction.Transactional;
@@ -18,39 +18,39 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class IOrganisationServiceImpl implements IOrganisationService {
 
-    private final OrganisationRepo organisationRepo;
+    private final OrganizationRepo organizationRepo;
 
 
     @Override
-    public Organisation add(OrganisationDto organisationDto) throws ClubException {
+    public Organization add(OrganizationDto organizationDto) throws ClubException {
         String matricule = RandomUtil.generateRandommatricule(6).toUpperCase();
-        Organisation organisation = new Organisation();
-        BeanUtils.copyProperties(organisationDto, organisation);
-        organisation.setMatricule(matricule);
-        return organisationRepo.save(organisation);
+        Organization organization = new Organization();
+        BeanUtils.copyProperties(organizationDto, organization);
+        organization.setMatricule(matricule);
+        return organizationRepo.save(organization);
     }
 
     @Override
-    public Organisation update(OrganisationDto organisationDto) throws ClubException {
+    public Organization update(OrganizationDto organizationDto) throws ClubException {
         return null;
     }
 
     @Override
-    public Organisation getById(Long id) throws ClubException {
-        return organisationRepo.findById(id)
+    public Organization getById(Long id) throws ClubException {
+        return organizationRepo.findById(id)
                 .orElseThrow(() -> new ClubException("400","Club with id ["+id+"] not found!" ));
     }
 
     @Override
-    public Page<Organisation> getALL(Pageable pageable, String nom, String ville, String region, String departement, String quartier, String etat, String printStatus) {
+    public Page<Organization> getALL(Pageable pageable, String nom, String ville, String region, String departement, String quartier, String etat, String printStatus) {
         return null;
     }
 
     @Override
     public String delete(Long id) throws ClubException {
-        organisationRepo.findById(id)
+        organizationRepo.findById(id)
                 .orElseThrow(() -> new ClubException("400","Club with id ["+id+"] not found!" ));
-        organisationRepo.deleteById(id);
+        organizationRepo.deleteById(id);
         return "SUCCESS";
     }
 }

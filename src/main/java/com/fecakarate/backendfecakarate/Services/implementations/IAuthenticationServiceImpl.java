@@ -2,8 +2,8 @@ package com.fecakarate.backendfecakarate.Services.implementations;
 
 import com.fecakarate.backendfecakarate.Models.Role;
 import com.fecakarate.backendfecakarate.Models.Users;
-import com.fecakarate.backendfecakarate.Models.auth.AuthenticationRequest;
-import com.fecakarate.backendfecakarate.Models.auth.AuthenticationResponse;
+import com.fecakarate.backendfecakarate.Dtos.auth.AuthenticationRequest;
+import com.fecakarate.backendfecakarate.Dtos.auth.AuthenticationResponse;
 import com.fecakarate.backendfecakarate.Repository.RoleCustomRepo;
 import com.fecakarate.backendfecakarate.Repository.UserRepo;
 import com.fecakarate.backendfecakarate.Services.interfaces.IAuthenticationService;
@@ -31,8 +31,6 @@ public class IAuthenticationServiceImpl implements IAuthenticationService {
 
 
     public ResponseEntity<?> authenticate(AuthenticationRequest authenticationRequest){
-        log.info("AUTHENTICATE METHODE");
-
         try {
             Users users = userRepo.findByEmail(authenticationRequest.getEmail()).orElseThrow(()->new NoSuchElementException("User Not FOUND"));
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));

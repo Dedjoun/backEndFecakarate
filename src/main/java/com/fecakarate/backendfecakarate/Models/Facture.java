@@ -24,7 +24,7 @@ public class Facture {
     private Long number;
     private String datepaie;
     @OneToOne
-    private Organisation organisation;
+    private Organization organization;
     @NotNull
     private BigDecimal amount;
     private Instant dateadd;

@@ -1,6 +1,6 @@
 package com.fecakarate.backendfecakarate.Controllers;
 
-import com.fecakarate.backendfecakarate.Dtos.MemberDto;
+import com.fecakarate.backendfecakarate.Dtos.organization.MemberDto;
 import com.fecakarate.backendfecakarate.Enums.Fonction;
 import com.fecakarate.backendfecakarate.Enums.Grade;
 import com.fecakarate.backendfecakarate.Enums.STATUS;

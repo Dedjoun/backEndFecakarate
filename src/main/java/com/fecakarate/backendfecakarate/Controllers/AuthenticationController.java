@@ -1,6 +1,6 @@
 package com.fecakarate.backendfecakarate.Controllers;
 
-import com.fecakarate.backendfecakarate.Models.auth.AuthenticationRequest;
+import com.fecakarate.backendfecakarate.Dtos.auth.AuthenticationRequest;
 import com.fecakarate.backendfecakarate.Services.interfaces.IAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,13 +1,13 @@
 package com.fecakarate.backendfecakarate.Services.implementations;
 
-import com.fecakarate.backendfecakarate.Dtos.MemberDto;
+import com.fecakarate.backendfecakarate.Dtos.organization.MemberDto;
 import com.fecakarate.backendfecakarate.Enums.Fonction;
 import com.fecakarate.backendfecakarate.Enums.Grade;
 import com.fecakarate.backendfecakarate.Enums.STATUS;
 import com.fecakarate.backendfecakarate.Exceptions.MemberException;
 import com.fecakarate.backendfecakarate.Models.Member;
 import com.fecakarate.backendfecakarate.Repository.MemberRepo;
-import com.fecakarate.backendfecakarate.Repository.OrganisationRepo;
+import com.fecakarate.backendfecakarate.Repository.OrganizationRepo;
 import com.fecakarate.backendfecakarate.Services.interfaces.IMemberServices;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class IMemberServicesImpl implements IMemberServices {
     private MemberRepo memberRepository;
 
     @Autowired
-    private OrganisationRepo organisationRepo;
+    private OrganizationRepo organizationRepo;
     @Override
     public Member add(MemberDto memberDto) throws MemberException {
         return null;

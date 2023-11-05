@@ -1,6 +1,6 @@
 package com.fecakarate.backendfecakarate.Controllers;
 
-import com.fecakarate.backendfecakarate.Dtos.OrganisationDto;
+import com.fecakarate.backendfecakarate.Dtos.organization.OrganizationDto;
 import com.fecakarate.backendfecakarate.Services.interfaces.IOrganisationService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/organisation/management")
-public class OrganisationController {
+public class OrganizationController {
 
     private final IOrganisationService IOrganisationService;
 
-    public OrganisationController(IOrganisationService IOrganisationService) {
+    public OrganizationController(IOrganisationService IOrganisationService) {
         this.IOrganisationService = IOrganisationService;
     }
 
     @PostMapping(path = "V1/add")
-    public ResponseEntity<?> add(@RequestBody OrganisationDto organisationDto){
-        return ResponseEntity.ok(IOrganisationService.add(organisationDto));
+    public ResponseEntity<?> add(@RequestBody OrganizationDto organizationDto){
+        return ResponseEntity.ok(IOrganisationService.add(organizationDto));
     }
 
     @PutMapping(path = "V1/update")
-    public ResponseEntity<?> update(@RequestBody OrganisationDto organisationDto){
-        return ResponseEntity.ok(IOrganisationService.update(organisationDto));
+    public ResponseEntity<?> update(@RequestBody OrganizationDto organizationDto){
+        return ResponseEntity.ok(IOrganisationService.update(organizationDto));
     }
 
     @GetMapping(path = "V1/getById")
