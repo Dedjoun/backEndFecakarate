@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="organisation")
+@Table(name="organization")
 public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

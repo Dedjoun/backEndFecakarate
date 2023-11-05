@@ -11,7 +11,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,13 +25,14 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
+
     private final UserRepo userRepo;
 
     private @Value("${secret.key}") String secretKey;
@@ -57,10 +57,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 filterChain.doFilter(request, response);
             }catch (Exception e){
-                ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, e.getMessage());
+                ErrorResponse errorResponse = new ErrorResponse(FORBIDDEN, e.getMessage());
                 response.setContentType(APPLICATION_JSON_VALUE);
+                response.setStatus(errorResponse.getStatusCodeValue());
                 new ObjectMapper().writeValue(response.getOutputStream(),errorResponse);
             }
+        }else {
+            filterChain.doFilter(request, response);
         }
     }
 }
