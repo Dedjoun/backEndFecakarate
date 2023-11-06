@@ -1,5 +1,7 @@
 package com.fecakarate.backendfecakarate.Dtos.organization;
 
+import com.fecakarate.backendfecakarate.Enums.STATUS;
+import com.fecakarate.backendfecakarate.Enums.UserType;
 import lombok.*;
 
 @NoArgsConstructor
@@ -9,12 +11,19 @@ import lombok.*;
 @Setter
 public class OrganizationDto {
     private String nom;
-    private String responsable;
+    private String matricule;
+    private String ville;
     private String region;
     private String departement;
-    private String arrondissement;
-    private String ville;
+    private String responsable;
     private String quartier;
+    private String arrondissement;
     private String email;
     private String contact;
+    private String qrcode;
+    private STATUS printStatus;
+    private STATUS licenceStatus;
+    private String logo;
+    private STATUS etat;
+    private UserType userType;
 }

@@ -7,6 +7,7 @@ import com.fecakarate.backendfecakarate.Repository.UserRepo;
 import com.fecakarate.backendfecakarate.Services.interfaces.IUserservice;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +60,10 @@ public class IUSERServiceImpl implements IUserservice {
 
         Users users = userRepo.findByEmail(username).get();
         users.getRoles().add(role);
+    }
+
+    @Override
+    public ResponseEntity<?> register() {
+        return null;
     }
 }

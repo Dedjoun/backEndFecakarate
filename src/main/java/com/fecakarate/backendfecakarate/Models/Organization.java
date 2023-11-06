@@ -26,9 +26,14 @@ public class Organization {
     private String email;
     private String contact;
     private String qrcode;
+    @Enumerated(EnumType.STRING)
     private STATUS printStatus;
+    @Enumerated(EnumType.STRING)
     private STATUS licenceStatus;
     private String logo;
+    @Enumerated(EnumType.STRING)
     private STATUS etat;
+    @Enumerated(EnumType.STRING)
     private UserType userType;
+
 }

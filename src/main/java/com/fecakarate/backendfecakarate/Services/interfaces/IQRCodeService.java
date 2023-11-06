@@ -5,6 +5,6 @@ import com.google.zxing.WriterException;
 import java.io.IOException;
 
 public interface IQRCodeService {
-    String generateQRCode(String data) throws WriterException, IOException;
+    String generateQRCode(String data, String userMatricule) throws WriterException, IOException;
 
 }

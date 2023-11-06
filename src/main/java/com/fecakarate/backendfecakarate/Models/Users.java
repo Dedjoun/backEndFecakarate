@@ -35,6 +35,19 @@ public class Users extends AbstractAuditingEntity implements UserDetails{
         this.password = password;
         this.roles = roles;
     }
+
+
+    public Users(String email,String matricule, String name, String password, Set<Role> roles){
+        this.email = email;
+        this.matricule = matricule;
+        this.name = name;
+        this.password = password;
+        this.roles = roles;
+    }
+
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

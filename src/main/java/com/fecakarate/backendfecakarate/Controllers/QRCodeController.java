@@ -20,7 +20,7 @@ public class QRCodeController {
 
     @GetMapping
     public String generateQRCode() throws WriterException, IOException {
-        return IQRCodeService.generateQRCode("Ceci est un QR code");
+        return IQRCodeService.generateQRCode("Ceci est un QR code", "Teste");
     }
 
 }
