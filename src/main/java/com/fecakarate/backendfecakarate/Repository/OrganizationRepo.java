@@ -11,5 +11,9 @@ import java.util.Optional;
 public interface OrganizationRepo extends JpaRepository<Organization,Long>, JpaSpecificationExecutor<Organization> {
 
     Optional<Organization> findByEmail(String email);
+
+    Boolean existsByEmail(String email);
+
+    Boolean existsByMatricule(String matricule);
     Optional<Organization> findByMatricule(String matricule);
 }

@@ -50,30 +50,24 @@ public class Initializer {
 
             if (userRepo.findByEmail("vanickperex@gmail.com").isEmpty()){
                 Users users = new Users("vanickperex@gmail.com","dedjoun","pass",new HashSet<>());
-                users.setCreatedBy("INITIALIZER");
-                users.setLastModifiedBy("INITIALIZER");
                 userservice.saveUser(users);
             }
 
             if (userRepo.findByEmail("vanickperex2@gmail.com").isEmpty()){
                 Users users = new Users("vanickperex2@gmail.com","dedjoun2","pass",new HashSet<>());
-                users.setCreatedBy("INITIALIZER");
-                users.setLastModifiedBy("INITIALIZER");
                 userservice.saveUser(users);
             }
 
             if (userRepo.findByEmail("vanickperex3@gmail.com").isEmpty()){
                 Users users = new Users("vanickperex3@gmail.com","dedjoun3","pass",new HashSet<>());
-                users.setCreatedBy("INITIALIZER");
-                users.setLastModifiedBy("INITIALIZER");
                 userservice.saveUser(users);
             }
             /*
                 assign role
              */
-//            userservice.addToUser("vanickperex@gmail.com", "Role_ADMIN");
-//            userservice.addToUser("vanickperex2@gmail.com", "Role_ORG");
-//            userservice.addToUser("vanickperex3@gmail.com", "Role_MANAGER");
+           /* userservice.addToUser("vanickperex@gmail.com", "Role_ADMIN");
+            userservice.addToUser("vanickperex2@gmail.com", "Role_ORG");
+            userservice.addToUser("vanickperex3@gmail.com", "Role_MANAGER");*/
 
         };
     }

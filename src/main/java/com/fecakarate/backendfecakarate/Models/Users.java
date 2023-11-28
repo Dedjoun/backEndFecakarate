@@ -14,7 +14,7 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @Table(name = "users")
-public class Users extends AbstractAuditingEntity implements UserDetails{
+public class Users extends Auditable<String> implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

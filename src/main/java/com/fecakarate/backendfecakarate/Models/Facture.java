@@ -16,7 +16,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @Entity
 @Table(name="facture")
-public class Facture {
+public class Facture extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;

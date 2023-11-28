@@ -9,8 +9,6 @@ import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
-
-import javax.xml.transform.Transformer;
 import java.util.List;
 
 @Repository
@@ -29,7 +27,7 @@ public class RoleCustomRepo {
         if (users.getEmail() != null){
             sql.append("and email=:email");
         }
-        NativeQuery<Role> query = ((Session)entityManager.getDelegate()).createNativeQuery(sql.toString());
+        NativeQuery query = ((Session)entityManager.getDelegate()).createNativeQuery(sql.toString());
         if (users.getEmail()!=null){
             query.setParameter("email", users.getEmail());
         }

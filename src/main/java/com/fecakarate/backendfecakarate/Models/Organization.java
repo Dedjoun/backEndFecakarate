@@ -4,17 +4,16 @@ import com.fecakarate.backendfecakarate.Enums.STATUS;
 import com.fecakarate.backendfecakarate.Enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
-
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name="organization")
-public class Organization {
+public class Organization  extends Auditable<String>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
     private String nom;
     private String matricule;
     private String ville;
