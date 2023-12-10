@@ -2,8 +2,6 @@ package com.fecakarate.backendfecakarate.Dtos.organization;
 
 import com.fecakarate.backendfecakarate.Enums.STATUS;
 import com.fecakarate.backendfecakarate.Enums.UserType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.*;
 
 @NoArgsConstructor
@@ -12,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 public class OrganizationDto {
-    private String id;
+    private Long id;
     private String nom;
     private String matricule;
     private String ville;

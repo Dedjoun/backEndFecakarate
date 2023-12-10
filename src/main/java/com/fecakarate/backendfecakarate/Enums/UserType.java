@@ -7,7 +7,6 @@ import lombok.*;
 public enum UserType {
     SUPERADMIN,
     ADMIN,
-
     ORGANIZATION,
     ASSOCIATION
 }

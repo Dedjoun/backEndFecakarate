@@ -12,6 +12,7 @@ public class ErrorResponse {
     private HttpStatus statusCode;
     private String errorMessage;
     private Object body;
+
     public ErrorResponse(HttpStatus statusCode, String errorMessage){
         this(statusCode, errorMessage, errorMessage);
     }

@@ -23,7 +23,7 @@ public class RoleCustomRepo {
                         "FROM users u\n" +
                         "JOIN user_role ur ON ur.user_id=ur.user_id\n" +
                         "JOIN roles r ON r.id = ur.role_id\n" +
-        "Where 1=1");
+                        "Where 1=1");
         if (users.getEmail() != null){
             sql.append("and email=:email");
         }

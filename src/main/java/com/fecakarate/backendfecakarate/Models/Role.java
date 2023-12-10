@@ -5,32 +5,49 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+
 @Entity
 @Getter
 @Setter
 @Data
 @NoArgsConstructor
 @Table(name = "roles")
-public class Role extends Auditable<String> {
+public class Role {
 
+    @PrePersist
+    protected void onCreate(){
+        this.created_At = new Date(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.updated_At = new Date(System.currentTimeMillis());
+    }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "role_sequence", sequenceName = "role_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "role_sequence")
     private Long id;
     private String name;
     private String description;
-    @ManyToMany(mappedBy = "roles")
+    private Date created_At;
+    private Date updated_At;
+    @ManyToMany(mappedBy = "roleSet")
     @Fetch(value = FetchMode.SELECT)
     @JsonIgnore
-    private Set<Users> user = new HashSet<>();
-    public Role(String name, String description){
-        this.name = name;
-        this.description = description;
+    private Set<Users> users = new HashSet<>();
+
+    public Role(Long id, String name, String description){
+        this.id=id;
+        this.name=name;
+        this.description=description;
     }
+
     public Role(String name){
-        this.name = name;
+        this.name=name;
     }
 }

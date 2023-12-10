@@ -8,10 +8,9 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-
 
 @Configuration
 @EnableWebSecurity
@@ -23,13 +22,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/admin/**").hasAnyAuthority("Role_ADMIN")
-                .requestMatchers("/user/**").hasAnyAuthority("Role_ADMIN", "Role_ORG", "Role_MANAGER")
-                .requestMatchers("/manager/**").hasAnyAuthority("Role_MANAGER","Role_ADMIN")
+                .requestMatchers("api/V1/auth/**").permitAll()
+                .requestMatchers("api/public/**").permitAll()
+                .requestMatchers("api/admin/**").hasAuthority("Role_ADMIN")
+                .requestMatchers("api/org/**").hasAnyAuthority("Role_ADMIN", "Role_MANAGER", "Role_ORG")
+                .requestMatchers("api/manager/**").hasAnyAuthority("Role_ADMIN", "Role_MANAGER")
                 .and()
                 .csrf().disable()
                 .cors(Customizer.withDefaults())

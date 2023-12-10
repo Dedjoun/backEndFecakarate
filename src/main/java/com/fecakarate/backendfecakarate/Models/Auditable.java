@@ -1,9 +1,7 @@
 package com.fecakarate.backendfecakarate.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +17,15 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public  class Auditable <U> {
+    @PrePersist
+    protected void onCreate(){
+        this.createdDate = new Date(System.currentTimeMillis());
+    }
 
+    @PreUpdate
+    protected void onUpdate(){
+        this.lastModifiedDate = new Date(System.currentTimeMillis());
+    }
 
     @CreatedBy
     @Column(name = "created_by")

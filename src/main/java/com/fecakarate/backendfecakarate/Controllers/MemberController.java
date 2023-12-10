@@ -5,20 +5,17 @@ import com.fecakarate.backendfecakarate.Enums.Fonction;
 import com.fecakarate.backendfecakarate.Enums.Grade;
 import com.fecakarate.backendfecakarate.Enums.STATUS;
 import com.fecakarate.backendfecakarate.Services.interfaces.IMemberServices;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/member/management")
+@RequiredArgsConstructor
 public class MemberController {
 
     private final IMemberServices IMemberServices;
-
-    public MemberController(IMemberServices IMemberServices) {
-        this.IMemberServices = IMemberServices;
-    }
-
 
     @PostMapping(path = "V1/add")
     public ResponseEntity<?> add(@RequestBody MemberDto memberDto){

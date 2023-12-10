@@ -24,6 +24,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class IAuthenticationServiceImpl implements IAuthenticationService {
+
     private final UserRepo userRepo;
     private final AuthenticationManager authenticationManager;
     private final IJwtService jwtService;
@@ -33,7 +34,15 @@ public class IAuthenticationServiceImpl implements IAuthenticationService {
     public ResponseEntity<?> authenticate(AuthenticationRequest authenticationRequest){
         try {
             Users users = userRepo.findByEmail(authenticationRequest.getEmail()).orElseThrow(()->new NoSuchElementException("User Not FOUND"));
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
+            try {
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                        authenticationRequest.getEmail(),
+                        authenticationRequest.getPassword()));
+            }catch (Exception e){
+                log.error("ERROR: "+e);
+            }
+
+
             List<Role> role = null;
             if (users!=null){
                 role=roleCustomRepo.getRole(users);
@@ -45,26 +54,18 @@ public class IAuthenticationServiceImpl implements IAuthenticationService {
             role.forEach(c->{set.add(new Role(c.getName()));
                 authorities.add(new SimpleGrantedAuthority(c.getName()));
             });
-
-            users.setRoles(set);
+            users.setRoleSet(set);
             set.forEach(i->authorities.add(new SimpleGrantedAuthority(i.getName())));
             var jwtAccessToken = jwtService.generateToken(users, authorities);
             var jwtRefreshToken = jwtService.generateRefreshToken(users, authorities);
-
-            return ResponseEntity.ok(AuthenticationResponse.builder()
-                    .access_token(jwtAccessToken)
-                    .refresh_token(jwtRefreshToken)
-                    .email(users.getEmail())
-                    .user_name(users.getName())
-                    .build());
+            return ResponseEntity.ok(AuthenticationResponse.builder().access_token(jwtAccessToken).refresh_token(jwtRefreshToken).email(users.getEmail()).user_name(users.getUser_name()).build());
         }catch (NoSuchElementException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }catch (BadCredentialsException e){
             return ResponseEntity.badRequest().body("Invalid Credential");
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong.");
         }
     }
-
 
 }

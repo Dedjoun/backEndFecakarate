@@ -7,6 +7,7 @@ import com.fecakarate.backendfecakarate.Repository.RoleCustomRepo;
 import com.fecakarate.backendfecakarate.Repository.UserRepo;
 import com.fecakarate.backendfecakarate.Services.interfaces.IJwtService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,10 +23,11 @@ public class IJwtServiceImpl implements IJwtService {
 
     private @Value("${secret.key}") String secretKey;
 
+    @Autowired
+    private UserRepo userRepo;
 
-    private final UserRepo userRepo;
-
-    private final RoleCustomRepo roleCustomRepo;
+    @Autowired
+    private RoleCustomRepo roleCustomRepo;
 
     public IJwtServiceImpl(@Value("${secret.key}")String secretKey, UserRepo userRepo, RoleCustomRepo roleCustomRepo) {
         this.secretKey = secretKey;
@@ -37,7 +39,7 @@ public class IJwtServiceImpl implements IJwtService {
         Algorithm algorithm = Algorithm.HMAC256(secretKey.getBytes());
         return JWT.create()
                 .withSubject(users.getEmail())
-                .withExpiresAt(new Date(System.currentTimeMillis()+50*60*1000))
+                .withExpiresAt(new Date(System.currentTimeMillis()+60*60*1000))
                 .withClaim("roles", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
     }

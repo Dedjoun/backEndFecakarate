@@ -3,6 +3,7 @@ package com.fecakarate.backendfecakarate.Controllers;
 import com.fecakarate.backendfecakarate.Dtos.organization.OrganizationDto;
 import com.fecakarate.backendfecakarate.Services.interfaces.IOrganizationService;
 import com.google.zxing.WriterException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,11 @@ import java.io.IOException;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/organisation/management")
 public class OrganizationController {
 
     private final IOrganizationService IOrganizationService;
-
-    public OrganizationController(IOrganizationService IOrganizationService) {
-        this.IOrganizationService = IOrganizationService;
-    }
 
     @PostMapping(path = "V1/add")
     public ResponseEntity<?> add(@RequestBody OrganizationDto organizationDto) throws IOException, WriterException {

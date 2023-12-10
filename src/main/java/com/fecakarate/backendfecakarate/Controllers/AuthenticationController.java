@@ -7,14 +7,15 @@ import com.fecakarate.backendfecakarate.Services.interfaces.IAuthenticationServi
 import com.fecakarate.backendfecakarate.Services.interfaces.IOrganizationService;
 import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/auth")
-
+@RequestMapping("/api/V1/auth")
+@Slf4j
 public class AuthenticationController {
 
     private final IAuthenticationService iAuthenticationService;

@@ -14,6 +14,8 @@ public interface OrganizationRepo extends JpaRepository<Organization,Long>, JpaS
 
     Boolean existsByEmail(String email);
 
+    Boolean existsByNom(String name);
+
     Boolean existsByMatricule(String matricule);
     Optional<Organization> findByMatricule(String matricule);
 }

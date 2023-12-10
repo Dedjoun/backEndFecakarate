@@ -6,10 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,12 +19,16 @@ public class Facture extends Auditable<String> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String libelle;
-    private Long number;
-    private String datepaie;
+    private String dateDemande;
+    private Long nombreLicence;
+    private Long nombreArbitre;
+    private Long nombreCoach;
+    private Long nombreAthlete;
+    private Long nombreEncadreur;
+    private Long nombreMember;
+    private Long nombrekinney;
     @OneToOne
     private Organization organization;
-    @NotNull
     private BigDecimal amount;
-    private Instant dateadd;
     private STATUS status;
 }
