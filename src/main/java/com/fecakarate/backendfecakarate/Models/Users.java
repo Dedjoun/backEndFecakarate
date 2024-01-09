@@ -1,5 +1,6 @@
 package com.fecakarate.backendfecakarate.Models;
 
+import com.fecakarate.backendfecakarate.Enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,40 +27,23 @@ public class Users implements UserDetails {
     protected void onUpdate(){
         this.updated_At = new Date(System.currentTimeMillis());
     }
+
     @Id
-   private String user_id;
-   private String user_name;
-   private String email;
-   private String password;
-   private String mobile_number;
-   @ManyToMany
-   @JoinTable(name = "user_role",
-   joinColumns = @JoinColumn(name = "user_id"),
-                            inverseJoinColumns =@JoinColumn(name = "role_id") )
-   private Set<Role> roleSet = new HashSet<>();
-
-   private Date created_At;
-   private Date updated_At;
-
-   public Users(String mobile_number, String user_name, String email, String password, Set<Role> roles){
-       this.user_id=email;
-       this.mobile_number=mobile_number;
-       this.user_name=user_name;
-       this.password=password;
-       this.email=email;
-       this.roleSet=roles;
-   }
+    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_sequence")
+    private Long id;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String password;
+    private Date created_At;
+    private Date updated_At;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        roleSet.stream().forEach(i->authorities.add(new SimpleGrantedAuthority(i.getName())));
-        return List.of(new SimpleGrantedAuthority(authorities.toString()));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -68,8 +52,13 @@ public class Users implements UserDetails {
     }
 
     @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

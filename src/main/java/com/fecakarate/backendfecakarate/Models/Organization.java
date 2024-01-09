@@ -12,7 +12,8 @@ import lombok.*;
 @Table(name="organization")
 public class Organization  extends Auditable<String>{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "organization_sequence", sequenceName = "organization_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "organization_sequence")
     private Long id;
     private String nom;
     private String matricule;
@@ -34,5 +35,4 @@ public class Organization  extends Auditable<String>{
     private STATUS etat;
     @Enumerated(EnumType.STRING)
     private UserType userType;
-
 }

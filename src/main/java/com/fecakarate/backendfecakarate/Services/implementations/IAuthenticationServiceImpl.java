@@ -1,24 +1,22 @@
 package com.fecakarate.backendfecakarate.Services.implementations;
 
-import com.fecakarate.backendfecakarate.Models.Role;
+import com.fecakarate.backendfecakarate.Config.JwtService;
+import com.fecakarate.backendfecakarate.Dtos.auth.RegisterRequest;
+import com.fecakarate.backendfecakarate.Enums.Role;
+import com.fecakarate.backendfecakarate.Models.CustomUserDetails;
 import com.fecakarate.backendfecakarate.Models.Users;
 import com.fecakarate.backendfecakarate.Dtos.auth.AuthenticationRequest;
 import com.fecakarate.backendfecakarate.Dtos.auth.AuthenticationResponse;
-import com.fecakarate.backendfecakarate.Repository.RoleCustomRepo;
 import com.fecakarate.backendfecakarate.Repository.UserRepo;
 import com.fecakarate.backendfecakarate.Services.interfaces.IAuthenticationService;
-import com.fecakarate.backendfecakarate.Services.interfaces.IJwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,46 +24,80 @@ import java.util.*;
 public class IAuthenticationServiceImpl implements IAuthenticationService {
 
     private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final IJwtService jwtService;
-    private final RoleCustomRepo roleCustomRepo;
 
 
-    public ResponseEntity<?> authenticate(AuthenticationRequest authenticationRequest){
+    @Value("${user.oauth.accessTokenValidity}")
+    private int accessTokenValidity;
+
+    @Value("${user.oauth.refreshTokenValidity}")
+    private int refreshTokenValidity;
+
+    @Value("${user.oauth.scope}")
+    private String scope;
+
+    @Value("${user.oauth.grant_type}")
+    private String grantType;
+
+    @Value("${user.oauth.token_type}")
+    private String tokenType;
+    @Override
+    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+
         try {
-            Users users = userRepo.findByEmail(authenticationRequest.getEmail()).orElseThrow(()->new NoSuchElementException("User Not FOUND"));
-            try {
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getEmail(),
-                        authenticationRequest.getPassword()));
+            try{
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                authenticationRequest.getEmail(),
+                                authenticationRequest.getPassword()
+                        )
+                );
             }catch (Exception e){
-                log.error("ERROR: "+e);
+                log.warn("Error:"+e);
+                log.info("Error:"+authenticationRequest);
+                throw new RuntimeException(e);
             }
 
-
-            List<Role> role = null;
-            if (users!=null){
-                role=roleCustomRepo.getRole(users);
-            }
-
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            Set<Role> set = new HashSet<>();
-            assert role != null;
-            role.forEach(c->{set.add(new Role(c.getName()));
-                authorities.add(new SimpleGrantedAuthority(c.getName()));
-            });
-            users.setRoleSet(set);
-            set.forEach(i->authorities.add(new SimpleGrantedAuthority(i.getName())));
-            var jwtAccessToken = jwtService.generateToken(users, authorities);
-            var jwtRefreshToken = jwtService.generateRefreshToken(users, authorities);
-            return ResponseEntity.ok(AuthenticationResponse.builder().access_token(jwtAccessToken).refresh_token(jwtRefreshToken).email(users.getEmail()).user_name(users.getUser_name()).build());
-        }catch (NoSuchElementException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }catch (BadCredentialsException e){
-            return ResponseEntity.badRequest().body("Invalid Credential");
+            Users user = userRepo.findByEmail(authenticationRequest.getEmail()).orElseThrow();
+            log.info("MY USER ==> "+ user);
+            String jwtToken = jwtService.generateTokenWithUserDetails(new CustomUserDetails(user));
+            log.info("MY TOKEN ==> "+ jwtToken);
+            return AuthenticationResponse.builder()
+                    .access_token(jwtToken)
+                    .token_type(tokenType)
+                    .expires_in(accessTokenValidity)
+                    .scope(scope)
+                    .role(user.getRole().name())
+                    .build();
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong.");
+            throw new  RuntimeException(e);
         }
+
+    }
+
+    public AuthenticationResponse register(RegisterRequest request) {
+        Users user = new Users();
+        user.setFirstname(request.getFirstname());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setEmail(request.getEmail());
+
+        if (request.getRole() == null){
+            user.setRole(Role.Admin);
+        }else {
+            user.setRole(Role.User);
+        }
+
+        userRepo.save(user);
+        String jwtToken = jwtService.generateTokenWithUserDetails(new CustomUserDetails(user));
+        return AuthenticationResponse.builder()
+                .access_token(jwtToken)
+                .token_type(tokenType)
+                .expires_in(accessTokenValidity)
+                .scope(scope)
+                .role(user.getRole().name())
+                .build();
     }
 
 }

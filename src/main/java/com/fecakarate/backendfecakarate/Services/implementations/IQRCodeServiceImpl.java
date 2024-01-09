@@ -1,10 +1,10 @@
 package com.fecakarate.backendfecakarate.Services.implementations;
 
+import com.fecakarate.backendfecakarate.Enums.QrcodeDest;
 import com.fecakarate.backendfecakarate.Services.interfaces.IQRCodeService;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -17,6 +17,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Hashtable;
 
 
@@ -27,7 +29,7 @@ import java.util.Hashtable;
 public class IQRCodeServiceImpl implements IQRCodeService {
 
     @Override
-    public String generateQRCode(String data, String userMatricule) throws WriterException, IOException {
+    public String generateQRCode(QrcodeDest qrcodeDest, String data, String userMatricule) throws IOException {
 
 
         try {
@@ -55,11 +57,22 @@ public class IQRCodeServiceImpl implements IQRCodeService {
                 }
             }
 
-            String fileName = userMatricule+".png";
-
             // Enregistrer l'image
-            ImageIO.write(image, "png", new File(fileName));
+            Path path = null;
+            if (qrcodeDest == QrcodeDest.Admin){
+                path = Paths.get("src/main/resources/qrcode/Admin/", userMatricule+".png");
+            } else if (qrcodeDest == QrcodeDest.Club) {
+                path = Paths.get("src/main/resources/qrcode/Club/", userMatricule+".png");
+            }else if (qrcodeDest == QrcodeDest.Membre){
+                path = Paths.get("src/main/resources/qrcode/Membre/", userMatricule+".png");
+            }
+            if (path==null){
+                throw  new RuntimeException("Error Path Is null");
+            }
+            // Enregistrer l'image au format PNG
+            ImageIO.write(image, "PNG", new File(path.toString()));
 
+            log.info("QRCODE GENERE POUR " + data);
             return "QRCODE GENERE POUR " + data;
         }catch (Exception e){
             log.warn("Error to generate QRCODE", e);

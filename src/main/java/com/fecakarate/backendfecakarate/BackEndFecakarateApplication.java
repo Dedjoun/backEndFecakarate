@@ -20,4 +20,6 @@ public class BackEndFecakarateApplication {
         return new BCryptPasswordEncoder();
     }
 
+
+
 }

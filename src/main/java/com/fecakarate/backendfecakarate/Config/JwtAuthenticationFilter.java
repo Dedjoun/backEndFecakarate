@@ -1,68 +1,79 @@
 package com.fecakarate.backendfecakarate.Config;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fecakarate.backendfecakarate.Repository.UserRepo;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+import lombok.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @Component
-@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private final JwtService jwtService = new JwtService();
 
-    private final UserRepo userRepo;
+    private final UserDetailsService userDetailsService;
 
-    private @Value("${secret.key}") String secretKey;
+    public JwtAuthenticationFilter(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
-            try {
-                String token = authorizationHeader.substring("Bearer".length());
-                Algorithm algorithm = Algorithm.HMAC256(secretKey.getBytes());
-                JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(token);
-                String userName = decodedJWT.getSubject();
-                userRepo.findByEmail(userName).orElseThrow(()-> new Exception("Invalid Token"));
-                String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-                Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                Arrays.stream(roles).forEach(role-> authorities.add(new SimpleGrantedAuthority(role)));
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userName, null, authorities);
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                filterChain.doFilter(request, response);
-            }catch (Exception e){
-                ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, e.getMessage());
-                response.setContentType(APPLICATION_JSON_VALUE);
-                response.setStatus(errorResponse.getStatusCodeValue());
-                new ObjectMapper().writeValue(response.getOutputStream(), errorResponse);
-            }
-        }else {
-            filterChain.doFilter(request, response);
-        }
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request, // our request
+            @NonNull HttpServletResponse response, // our response... We can intercept requests and maybe add headers to// our requests
+            @NonNull FilterChain filterChain// to filter our requests
+    ) throws ServletException, IOException {
 
+
+        // we check if we have the jwt token
+
+        final String authHeader = request.getHeader("Authorization");// we get the header from the request that contains
+        final String jwt;
+        final String userEmail;
+        // checking if we have a token
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {// false token. A token must start with 'Bearer '
+            filterChain.doFilter(request, response);
+
+            return;
+        }
+        System.out.println("Auth header = "+authHeader);
+        jwt = authHeader.substring(7);// the jwt token starts at index 7
+        System.out.println("JWT = "+jwt);
+        userEmail = jwtService.extractUsername(jwt);// TODO extract user-email from JWT token
+        System.out.println(jwtService.extractUsername(jwt));
+        //f the user isn't authenticated,
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {// user not yet
+            // authenticated
+            // we get the user from the DB
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            if (jwtService.isTokenValid(jwt, userDetails)) {//we check if the user is valid or not
+                System.out.println("1--------------------------");
+
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null, // credentials
+                        userDetails.getAuthorities());
+                System.out.println("2--------------------------");
+
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                System.out.println("3-------------------------");
+
+                // we update the security context holder
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("4--------------------------");
+
+            }
+        }
+        //for the next filter
+        filterChain.doFilter(request, response);
     }
 }

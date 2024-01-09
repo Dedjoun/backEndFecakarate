@@ -10,15 +10,15 @@ import org.springframework.data.domain.Pageable;
 import java.io.IOException;
 
 public interface IOrganizationService {
-    Organization add(OrganizationDto organizationDto) throws OrganizationException, IOException, WriterException;
+    Organization addOrg(OrganizationDto organizationDto) throws OrganizationException, IOException, WriterException;
 
-    Organization update(OrganizationDto organizationDto) throws OrganizationException;
+    Organization updateOrg(OrganizationDto organizationDto) throws OrganizationException;
 
-    Organization getById(Long id) throws OrganizationException;
+    Organization getByIdOrg(Long id) throws OrganizationException;
 
-    Page<Organization> getALL(Pageable pageable, String nom, String ville,
-                              String region, String departement, String quartier,
-                              String etat, String printStatus);
+    Page<Organization> getALLOrg(Pageable pageable, String nom, String ville,
+                                 String region, String departement, String quartier,
+                                 String etat, String printStatus, String from, String to);
 
-    String delete(Long id) throws OrganizationException;
+    String deleteOrg(Long id) throws OrganizationException;
 }

@@ -1,13 +1,17 @@
 package com.fecakarate.backendfecakarate.Services.interfaces;
 
-import com.fecakarate.backendfecakarate.Models.Users;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Collection;
+import io.jsonwebtoken.Claims;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface IJwtService {
 
-    String generateToken(Users users, Collection<SimpleGrantedAuthority> authorities);
+    String generateToken(UserDetails userDetails);
+    String extractUsername(String token);
 
-    String generateRefreshToken(Users users, Collection<SimpleGrantedAuthority> authorities);
+    Claims extractAllClaims(String token);
+
+    boolean isTokenExpired(String token);
+
+    Boolean isTokenValid(String token, UserDetails userDetails);
 }

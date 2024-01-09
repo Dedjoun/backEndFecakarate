@@ -23,4 +23,5 @@ public class MemberDto {
     private String photo;
     private STATUS printStatus;
     private STATUS licenceStatus;
+    private String contact;
 }

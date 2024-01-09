@@ -16,7 +16,8 @@ import java.math.BigDecimal;
 @Table(name="facture")
 public class Facture extends Auditable<String> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "facture_sequence", sequenceName = "facture_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "facture_sequence")
     private String id;
     private String libelle;
     private String dateDemande;

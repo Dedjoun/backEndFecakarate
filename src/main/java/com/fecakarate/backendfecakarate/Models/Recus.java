@@ -14,9 +14,10 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name="recu")
-public class Recus {
+public class Recus extends Auditable<String> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "recu_sequence", sequenceName = "recu_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "recu_sequence")
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "organisation_id")

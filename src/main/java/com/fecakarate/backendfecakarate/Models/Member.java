@@ -11,7 +11,8 @@ import lombok.*;
 @Table(name="member")
 public class Member extends Auditable<String>{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "member_sequence", sequenceName = "member_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "member_sequence")
     private String id;
     private String matricule;
     private String nom;
@@ -27,4 +28,8 @@ public class Member extends Auditable<String>{
     private String photo;
     private STATUS printStatus;
     private STATUS licenceStatus;
+    private String region;
+    private String departement;
+    private String contact;
+    private String sexe;
 }

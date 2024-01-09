@@ -6,22 +6,22 @@ import com.fecakarate.backendfecakarate.Enums.Grade;
 import com.fecakarate.backendfecakarate.Enums.STATUS;
 import com.fecakarate.backendfecakarate.Exceptions.MemberException;
 import com.fecakarate.backendfecakarate.Models.Member;
+import com.google.zxing.WriterException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
+
 public interface IMemberServices {
 
-    Member add(MemberDto memberDto) throws MemberException;
+    Member addMember(MemberDto memberDto) throws MemberException, IOException, WriterException;
 
-    Member update(MemberDto memberDto)throws MemberException;
+    Member updateMember(MemberDto memberDto)throws MemberException;
 
-    Member getById(Long id) throws MemberException;
+    Member getByIdMember(Long id) throws MemberException;
 
-    String delete(Long id) throws MemberException;
-
-    Page<Member> getALL(Pageable pageable, String matricule,
-                        Fonction fonction, STATUS printStatus,
-                        Grade grade, Long organisationId,
-                        STATUS licenceStatus,
-                        String from, String to) throws MemberException;
+    String deleteMember(Long id) throws MemberException;
+    Page<Member> getALLMember(Pageable pageable, String matricule, Fonction fonction,
+                              STATUS printStatus, Grade grade, Long organisationId,
+                              STATUS licenceStatus, String sexe, String region, String departement, String from, String to) throws MemberException;
 }

@@ -1,18 +1,21 @@
 package com.fecakarate.backendfecakarate.Controllers;
 
 import com.fecakarate.backendfecakarate.Services.interfaces.IListService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping(path = "/api/public")
+@RequestMapping(path = "/api-public")
 public class ListController {
 
     private final IListService listService;
+
+    public ListController(IListService listService) {
+        this.listService = listService;
+    }
+
     @GetMapping(path = "/listFonction")
     public ResponseEntity<?> getFonction(){
         return ResponseEntity.ok(listService.getFonctionSystems());
