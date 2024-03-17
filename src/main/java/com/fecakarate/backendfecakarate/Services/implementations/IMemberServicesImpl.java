@@ -206,4 +206,9 @@ public class IMemberServicesImpl implements IMemberServices {
 
             }
 
+    @Override
+    public List<Member> getAll() {
+        return memberRepository.findAllByFonction(Fonction.member);
+    }
+
 }

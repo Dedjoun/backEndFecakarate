@@ -32,7 +32,6 @@ public class ListController {
     public ResponseEntity<?> getDepartement(){
         return ResponseEntity.ok(listService.getDepartement());
     }
-
     @GetMapping(path = "/listGrade")
     public ResponseEntity<?> getById(){
         return ResponseEntity.ok(listService.getGrade());

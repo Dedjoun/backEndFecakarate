@@ -33,7 +33,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain// to filter our requests
     ) throws ServletException, IOException {
 
-
         // we check if we have the jwt token
 
         final String authHeader = request.getHeader("Authorization");// we get the header from the request that contains
@@ -73,7 +72,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             }
         }
+        System.out.println("5--------------------------");
+
         //for the next filter
         filterChain.doFilter(request, response);
+
+        System.out.println("6--------------------------");
     }
 }
